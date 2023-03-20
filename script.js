@@ -14,10 +14,10 @@ for (let key of keys) {
 			display_output.innerHTML = "";
 		} else if (value == "backspace") {
 			input = input.slice(0, -1);
-			display_input.innerHTML = CleanInput(input);
+			display_input.innerHTML = GetInput(input);
 		} else if (value == "=") {
 			let result = eval(PerpareInput(input));
-			display_output.innerHTML = CleanOutput(result);
+			display_output.innerHTML = GetOutput(result);
 		} else if (value == "brackets") {
 			if (
 				input.indexOf("(") == -1 || 
@@ -36,17 +36,17 @@ for (let key of keys) {
 				input += ")";
 			}
 
-			display_input.innerHTML = CleanInput(input);
+			display_input.innerHTML = GetInput(input);
 		} else {
 			if (ValidateInput(value)) {
 				input += value;
-				display_input.innerHTML = CleanInput(input);
+				display_input.innerHTML = GetInput(input);
 			}
 		}
 	})
 }
 
-function CleanInput(input) {
+function GetInput(input) {
 	let input_array = input.split("");
 	let input_array_length = input_array.length;
 
@@ -71,7 +71,7 @@ function CleanInput(input) {
 	return input_array.join("");
 }
 
-function CleanOutput (output) {
+function GetOutput (output) {
 	let output_string = output.toString();
 	let decimal = output_string.split(".")[1];
 	output_string = output_string.split(".")[0];
