@@ -92,24 +92,6 @@ function GetOutput (output) {
 	return output_array.join("");
 }
 
-// function ValidateInput (value) {
-// 	let last_input = input.slice(-1);
-// 	let operators = ["+", "-", "*", "/","%"];
-
-// 	if (value == "." && last_input == ".") {
-// 		return false;
-// 	}
-
-// 	if (operators.includes(value)) {
-// 		if (operators.includes(last_input)) {
-// 			return false;
-// 		} else {
-// 			return true;
-// 		}
-// 	}
-
-// 	return true;
-// }
 function ValidateInput(value) {
     let last_input = input.slice(-1);
     let operators = ["+", "-", "*", "/","%"];
