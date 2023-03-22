@@ -16,7 +16,7 @@ for (let key of keys) {
 			input = input.slice(0, -1);
 			display_input.innerHTML = GetInput(input);
 		} else if (value == "=") {
-			let result = eval(PerpareInput(input));
+			let result = eval(PrepareInput(input));
 			display_output.innerHTML = GetOutput(result);
 		} else if (value == "brackets") {
 			if (
@@ -78,7 +78,7 @@ function GetOutput (output) {
 
 	let output_array = output_string.split("");
 	
-	if (output_array.length > 3) {
+	if (output_array.length > 3 && !isNaN(output_array)) {
 		for (let i = output_array.length - 3; i > 0; i -= 3) {
 			output_array.splice(i, 0, ",");
 		}
@@ -92,26 +92,46 @@ function GetOutput (output) {
 	return output_array.join("");
 }
 
-function ValidateInput (value) {
-	let last_input = input.slice(-1);
-	let operators = ["+", "-", "*", "/"];
+// function ValidateInput (value) {
+// 	let last_input = input.slice(-1);
+// 	let operators = ["+", "-", "*", "/","%"];
 
-	if (value == "." && last_input == ".") {
-		return false;
-	}
+// 	if (value == "." && last_input == ".") {
+// 		return false;
+// 	}
 
-	if (operators.includes(value)) {
-		if (operators.includes(last_input)) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+// 	if (operators.includes(value)) {
+// 		if (operators.includes(last_input)) {
+// 			return false;
+// 		} else {
+// 			return true;
+// 		}
+// 	}
 
-	return true;
+// 	return true;
+// }
+function ValidateInput(value) {
+    let last_input = input.slice(-1);
+    let operators = ["+", "-", "*", "/","%"];
+  
+    if (value == "." && last_input == ".") {
+        return false;
+    }
+
+    if (operators.includes(value)) {
+        if (operators.includes(last_input)) {
+            // If last input was also an operator, replace it with the new operator
+            input = input.slice(0, -1) + value;
+            display_input.innerHTML = GetInput(input);
+            return false;
+        } else {
+            return true;
+        }
+    }
+    return true;
 }
 
-function PerpareInput (input) {
+function PrepareInput (input) {
 	let input_array = input.split("");
 
 	for (let i = 0; i < input_array.length; i++) {
