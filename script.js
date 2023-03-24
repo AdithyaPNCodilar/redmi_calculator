@@ -113,14 +113,30 @@ function ValidateInput(value) {
     return true;
 }
 
-function PrepareInput (input) {
+function PrepareInput(input) {
 	let input_array = input.split("");
-
+	
 	for (let i = 0; i < input_array.length; i++) {
-		if (input_array[i] == "%") {
-			input_array[i] = "/100";
+	  if (input_array[i] == "%") {
+		let j = i - 1;
+		let operand = "";
+		while (/[0-9\.]/.test(input_array[j])) {
+		  operand = (input_array[j] + operand)*10;
+		  j--;
 		}
+		if (j == i - 1) {
+		  // if there is no operand before the `%` operator, treat it as a divide by 100
+		  let expression = parseFloat(input_array.slice(0, i).join("")) * 0.01;
+		  input_array.splice(0, i + 1, expression.toString());
+		} else {
+		  let percent = parseFloat(operand) * 0.01;
+		  let expression = percent * parseFloat(input_array.slice(j + 1, i).join(""));
+		  input_array.splice(j + 1, i - j, expression.toString());
+		}
+		i = j + 1;
+	  }
 	}
-
+	
 	return input_array.join("");
-}
+  }
+  
